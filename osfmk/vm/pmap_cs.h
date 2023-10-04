@@ -51,7 +51,7 @@ __BEGIN_DECLS
 
 #include <vm/pmap.h>
 #include <kern/lock_rw.h>
-#include <TrustCache/API.h>
+// #include <TrustCache/API.h>
 
 
 #if PMAP_CS
@@ -109,9 +109,9 @@ extern bool ppl_developer_mode_storage;
  * loaded based on its UUID. The PPL trust cache runtime is kept locked as shared
  * during the function.
  */
-kern_return_t
-pmap_check_trust_cache_runtime_for_uuid(
-	const uint8_t check_uuid[kUUIDSize]);
+// kern_return_t
+// pmap_check_trust_cache_runtime_for_uuid(
+// 	const uint8_t check_uuid[kUUIDSize]);
 
 /**
  * Load an image4 trust cache of a particular type into the PPL. If validation succeeds,
@@ -124,12 +124,12 @@ pmap_check_trust_cache_runtime_for_uuid(
  * Upon successful validation, the trust cache is added to the runtime maintained by the
  * PPL.
  */
-kern_return_t
-pmap_load_trust_cache_with_type(
-	TCType_t type,
-	const vm_address_t pmap_img4_payload, const vm_size_t pmap_img4_payload_len,
-	const vm_address_t img4_manifest, const vm_size_t img4_manifest_len,
-	const vm_address_t img4_aux_manifest, const vm_size_t img4_aux_manifest_len);
+// kern_return_t
+// pmap_load_trust_cache_with_type(
+// 	TCType_t type,
+// 	const vm_address_t pmap_img4_payload, const vm_size_t pmap_img4_payload_len,
+// 	const vm_address_t img4_manifest, const vm_size_t img4_manifest_len,
+// 	const vm_address_t img4_aux_manifest, const vm_size_t img4_aux_manifest_len);
 
 /*
  * Query a trust cache from within the PPL. This function can only be called when within
@@ -145,12 +145,12 @@ pmap_query_trust_cache_safe(
  * Query a trust cache of a particular type from the PPL. The query_token passed in will
  * be pinned by the PPL runtime when the PPL is attempting to write to it. This is an API
  * which can be used for callers external to the PPL.
- */
-kern_return_t
-pmap_query_trust_cache(
-	TCQueryType_t query_type,
-	const uint8_t cdhash[kTCEntryHashSize],
-	TrustCacheQueryToken_t *query_token);
+//  */
+// kern_return_t
+// pmap_query_trust_cache(
+// 	TCQueryType_t query_type,
+// 	const uint8_t cdhash[kTCEntryHashSize],
+// 	TrustCacheQueryToken_t *query_token);
 
 /**
  * Toggle the state of developer mode on the system. This function can only be called with

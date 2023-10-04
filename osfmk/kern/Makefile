@@ -159,11 +159,6 @@ GENERATED_HEADERS := $(patsubst %.tightbeam,%.tightbeam.h,$(TIGHTBEAM_FILES))
 GENERATED_IMPL := $(patsubst %.tightbeam,%.tightbeam.c,$(TIGHTBEAM_FILES))
 COMP_FILES := $(GENERATED_HEADERS) $(GENERATED_IMPL)
 
-$(GENERATED_HEADERS) : \
-	%.tightbeam.h : %.tightbeam
-	@$(LOG_TIGHTBEAMC) "$@"
-	$(_v)$(TIGHTBEAMC) --pass c --output-base $*.tightbeam.c $<
-
 $(GENERATED_IMPL) : $(GENERATED_HEADERS)
 
 do_build_all:: $(COMP_FILES)

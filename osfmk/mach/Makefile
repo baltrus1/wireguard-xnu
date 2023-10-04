@@ -315,7 +315,7 @@ ${MIG_USHDRS} : \
 
 INCFLAGS_MAKEFILE= -I..
 
-MIGKSFLAGS      = -DMACH_KERNEL_PRIVATE -DKERNEL_SERVER=1 -mach_msg2
+MIGKSFLAGS      = -DMACH_KERNEL_PRIVATE -DKERNEL_SERVER=1
 MIGKUFLAGS      = -DMACH_KERNEL_PRIVATE -DKERNEL_USER=1 -maxonstack 1024
 #
 # MIG-generated headers that are traditionally used by kernel

@@ -4,7 +4,7 @@ XNU Collection iterators
 from __future__ import absolute_import
 
 from builtins import object
-from .cvalue import gettype
+from cvalue import gettype
 from .standard import xnu_format
 
 from six import add_metaclass

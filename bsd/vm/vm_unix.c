@@ -2447,26 +2447,26 @@ shared_region_map_and_slide_setup(
 			goto root_check;
 		}
 
-		bool in_trust_cache = false;
-		TrustCacheQueryToken_t qt;
-		if (query_trust_cache(kTCQueryTypeAll, cdhash, &qt) == KERN_SUCCESS) {
-			TCType_t tc_type = kTCTypeInvalid;
-			TCReturn_t tc_ret = amfi->TrustCache.queryGetTCType(&qt, &tc_type);
-			in_trust_cache = (tc_ret.error == kTCReturnSuccess &&
-			    (tc_type == kTCTypeCryptex1BootOS ||
-			    tc_type == kTCTypeStatic ||
-			    tc_type == kTCTypeEngineering));
-		}
-		if (!in_trust_cache) {
-			SHARED_REGION_TRACE_ERROR(
-				("shared_region: %p [%d(%s)] map(%p:'%s'): "
-				"not in trust cache\n",
-				(void *)VM_KERNEL_ADDRPERM(current_thread()),
-				proc_getpid(p), p->p_comm,
-				(void *)VM_KERNEL_ADDRPERM(srfmp->vp),
-				srfmp->vp->v_name));
-			goto root_check;
-		}
+		// bool in_trust_cache = false;
+		// TrustCacheQueryToken_t qt;
+		// if (query_trust_cache(kTCQueryTypeAll, cdhash, &qt) == KERN_SUCCESS) {
+		// 	TCType_t tc_type = kTCTypeInvalid;
+		// 	TCReturn_t tc_ret = amfi->TrustCache.queryGetTCType(&qt, &tc_type);
+		// 	in_trust_cache = (tc_ret.error == kTCReturnSuccess &&
+		// 	    (tc_type == kTCTypeCryptex1BootOS ||
+		// 	    tc_type == kTCTypeStatic ||
+		// 	    tc_type == kTCTypeEngineering));
+		// }
+		// if (!in_trust_cache) {
+		// 	SHARED_REGION_TRACE_ERROR(
+		// 		("shared_region: %p [%d(%s)] map(%p:'%s'): "
+		// 		"not in trust cache\n",
+		// 		(void *)VM_KERNEL_ADDRPERM(current_thread()),
+		// 		proc_getpid(p), p->p_comm,
+		// 		(void *)VM_KERNEL_ADDRPERM(srfmp->vp),
+		// 		srfmp->vp->v_name));
+		// 	goto root_check;
+		// }
 		goto after_root_check;
 root_check:
 #endif /* XNU_TARGET_OS_OSX && defined(__arm64__) */

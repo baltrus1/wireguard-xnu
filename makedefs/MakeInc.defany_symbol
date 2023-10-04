@@ -129,7 +129,7 @@ USE_WERROR := $(BUILD_WERROR)
 endif
 
 ifeq ($(USE_WERROR),1)
-WERROR := 
+WERROR := -Werror
 endif
 
 # Shared C/C++ warning flags

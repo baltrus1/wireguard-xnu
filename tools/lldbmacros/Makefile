@@ -31,7 +31,7 @@ LLDBMACROS_USERDEBUG_FILES:= \
 LLDBMACROS_PYTHON_FILES = $(LLDBMACROS_USERDEBUG_FILES) \
 	core/__init__.py \
 	core/caching.py \
-	core/collections.py \
+	core/py_collections.py \
 	core/compat.py \
 	core/configuration.py \
 	core/cvalue.py \

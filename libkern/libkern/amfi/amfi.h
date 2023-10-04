@@ -123,113 +123,113 @@ typedef struct _OSEntitlementsInterface {
 
 #pragma mark libTrustCache
 
-#include <TrustCache/API.h>
-#define KERN_AMFI_SUPPORTS_TRUST_CACHE_API 1
-#define TRUST_CACHE_INTERFACE_VERSION 3u
+// #include <TrustCache/API.h>
+#define KERN_AMFI_SUPPORTS_TRUST_CACHE_API 0
+// #define TRUST_CACHE_INTERFACE_VERSION 3u
 
-typedef TCReturn_t (*constructInvalid_t)(
-	TrustCache_t *trustCache,
-	const uint8_t *moduleAddr,
-	size_t moduleSize
-	);
+// typedef TCReturn_t (*constructInvalid_t)(
+// 	TrustCache_t *trustCache,
+// 	const uint8_t *moduleAddr,
+// 	size_t moduleSize
+// 	);
 
-typedef TCReturn_t (*checkRuntimeForUUID_t)(
-	const TrustCacheRuntime_t *runtime,
-	const uint8_t checkUUID[kUUIDSize],
-	const TrustCache_t **trustCacheRet
-	);
+// typedef TCReturn_t (*checkRuntimeForUUID_t)(
+// 	const TrustCacheRuntime_t *runtime,
+// 	const uint8_t checkUUID[kUUIDSize],
+// 	const TrustCache_t **trustCacheRet
+// 	);
 
-typedef TCReturn_t (*loadModule_t)(
-	TrustCacheRuntime_t *runtime,
-	const TCType_t type,
-	TrustCache_t *trustCache,
-	const uintptr_t dataAddr,
-	const size_t dataSize
-	);
+// typedef TCReturn_t (*loadModule_t)(
+// 	TrustCacheRuntime_t *runtime,
+// 	const TCType_t type,
+// 	TrustCache_t *trustCache,
+// 	const uintptr_t dataAddr,
+// 	const size_t dataSize
+// 	);
 
-typedef TCReturn_t (*load_t)(
-	TrustCacheRuntime_t *runtime,
-	TCType_t type,
-	TrustCache_t *trustCache,
-	const uintptr_t payloadAddr,
-	const size_t payloadSize,
-	const uintptr_t manifestAddr,
-	const size_t manifestSize
-	);
+// typedef TCReturn_t (*load_t)(
+// 	TrustCacheRuntime_t *runtime,
+// 	TCType_t type,
+// 	TrustCache_t *trustCache,
+// 	const uintptr_t payloadAddr,
+// 	const size_t payloadSize,
+// 	const uintptr_t manifestAddr,
+// 	const size_t manifestSize
+// 	);
 
-typedef TCReturn_t (*extractModule_t)(
-	TrustCache_t *trustCache,
-	const uint8_t *dataAddr,
-	size_t dataSize
-	);
+// typedef TCReturn_t (*extractModule_t)(
+// 	TrustCache_t *trustCache,
+// 	const uint8_t *dataAddr,
+// 	size_t dataSize
+// 	);
 
-typedef TCReturn_t (*query_t)(
-	const TrustCacheRuntime_t *runtime,
-	TCQueryType_t queryType,
-	const uint8_t CDHash[kTCEntryHashSize],
-	TrustCacheQueryToken_t *queryToken
-	);
+// typedef TCReturn_t (*query_t)(
+// 	const TrustCacheRuntime_t *runtime,
+// 	TCQueryType_t queryType,
+// 	const uint8_t CDHash[kTCEntryHashSize],
+// 	TrustCacheQueryToken_t *queryToken
+// 	);
 
-typedef TCReturn_t (*getModule_t)(
-	const TrustCache_t *trustCache,
-	const uint8_t **moduleAddrRet,
-	size_t *moduleSizeRet
-	);
+// typedef TCReturn_t (*getModule_t)(
+// 	const TrustCache_t *trustCache,
+// 	const uint8_t **moduleAddrRet,
+// 	size_t *moduleSizeRet
+// 	);
 
-typedef TCReturn_t (*getUUID_t)(
-	const TrustCache_t *trustCache,
-	uint8_t returnUUID[kUUIDSize]
-	);
+// typedef TCReturn_t (*getUUID_t)(
+// 	const TrustCache_t *trustCache,
+// 	uint8_t returnUUID[kUUIDSize]
+// 	);
 
-typedef TCReturn_t (*getCapabilities_t)(
-	const TrustCache_t *trustCache,
-	TCCapabilities_t *capabilities
-	);
+// typedef TCReturn_t (*getCapabilities_t)(
+// 	const TrustCache_t *trustCache,
+// 	TCCapabilities_t *capabilities
+// 	);
 
-typedef TCReturn_t (*queryGetTCType_t)(
-	const TrustCacheQueryToken_t *queryToken,
-	TCType_t *typeRet
-	);
+// typedef TCReturn_t (*queryGetTCType_t)(
+// 	const TrustCacheQueryToken_t *queryToken,
+// 	TCType_t *typeRet
+// 	);
 
-typedef TCReturn_t (*queryGetCapabilities_t)(
-	const TrustCacheQueryToken_t *queryToken,
-	TCCapabilities_t *capabilities
-	);
+// typedef TCReturn_t (*queryGetCapabilities_t)(
+// 	const TrustCacheQueryToken_t *queryToken,
+// 	TCCapabilities_t *capabilities
+// 	);
 
-typedef TCReturn_t (*queryGetHashType_t)(
-	const TrustCacheQueryToken_t *queryToken,
-	uint8_t *hashTypeRet
-	);
+// typedef TCReturn_t (*queryGetHashType_t)(
+// 	const TrustCacheQueryToken_t *queryToken,
+// 	uint8_t *hashTypeRet
+// 	);
 
-typedef TCReturn_t (*queryGetFlags_t)(
-	const TrustCacheQueryToken_t *queryToken,
-	uint64_t *flagsRet
-	);
+// typedef TCReturn_t (*queryGetFlags_t)(
+// 	const TrustCacheQueryToken_t *queryToken,
+// 	uint64_t *flagsRet
+// 	);
 
-typedef TCReturn_t (*queryGetConstraintCategory_t)(
-	const TrustCacheQueryToken_t *queryToken,
-	uint8_t *constraintCategoryRet
-	);
+// typedef TCReturn_t (*queryGetConstraintCategory_t)(
+// 	const TrustCacheQueryToken_t *queryToken,
+// 	uint8_t *constraintCategoryRet
+// 	);
 
-typedef struct _TrustCacheInterface {
-	uint32_t version;
-	loadModule_t loadModule;
-	load_t load;
-	query_t query;
-	getCapabilities_t getCapabilities;
-	queryGetTCType_t queryGetTCType;
-	queryGetCapabilities_t queryGetCapabilities;
-	queryGetHashType_t queryGetHashType;
-	queryGetFlags_t queryGetFlags;
-	queryGetConstraintCategory_t queryGetConstraintCategory;
+// typedef struct _TrustCacheInterface {
+// 	uint32_t version;
+// 	loadModule_t loadModule;
+// 	load_t load;
+// 	query_t query;
+// 	getCapabilities_t getCapabilities;
+// 	queryGetTCType_t queryGetTCType;
+// 	queryGetCapabilities_t queryGetCapabilities;
+// 	queryGetHashType_t queryGetHashType;
+// 	queryGetFlags_t queryGetFlags;
+// 	queryGetConstraintCategory_t queryGetConstraintCategory;
 
-	/* Available since interface version 3 */
-	constructInvalid_t constructInvalid;
-	checkRuntimeForUUID_t checkRuntimeForUUID;
-	extractModule_t extractModule;
-	getModule_t getModule;
-	getUUID_t getUUID;
-} TrustCacheInterface_t;
+// 	/* Available since interface version 3 */
+// 	constructInvalid_t constructInvalid;
+// 	checkRuntimeForUUID_t checkRuntimeForUUID;
+// 	extractModule_t extractModule;
+// 	getModule_t getModule;
+// 	getUUID_t getUUID;
+// } TrustCacheInterface_t;
 
 #pragma mark Main AMFI Structure
 

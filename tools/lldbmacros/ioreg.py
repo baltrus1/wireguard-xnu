@@ -15,7 +15,6 @@ import sys
 import lldb
 import os
 import sys
-from collections import deque
 
 ######################################
 # Globals
@@ -1124,6 +1123,8 @@ def GetMatchingEntries(matcher):
         core.cvalue.value: LLDB values that represent IORegistryEntry * for
             each registry entry found.
     """
+
+    from collections import deque
 
     # Perform a BFS over the IOKit registry tree
     bfs_queue = deque()

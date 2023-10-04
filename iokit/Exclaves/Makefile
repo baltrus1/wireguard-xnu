@@ -3,7 +3,7 @@ export MakeInc_def=${SRCROOT}/makedefs/MakeInc.def
 export MakeInc_rule=${SRCROOT}/makedefs/MakeInc.rule
 export MakeInc_dir=${SRCROOT}/makedefs/MakeInc.dir
 
-TIGHTBEAMC_INCFLAGS = -I$(SRCROOT)/iokit/Exclaves
+# TIGHTBEAMC_INCFLAGS = -I$(SRCROOT)/iokit/Exclaves
 
 INCDIR = $(FRAMEDIR)/$(DKIT_INCDIR)
 DRIVERKITINCDIR = $(DRIVERKITFRAMEDIR)/$(DRIVERKIT_DKIT_INCDIR)
@@ -44,11 +44,6 @@ INSTALL_KF_MI_GEN_LIST = $(PUBLIC_DEFS)
 EXPORT_MI_LIST = $(ALL_HDRS)
 
 COMP_FILES = ${GENERATED_HEADERS} $(GENERATED_IMPL)
-
-$(GENERATED_HEADERS) : \
-	%.tightbeam.h : %.tightbeam
-	@$(LOG_TIGHTBEAMC) "$@"
-	$(_v)$(TIGHTBEAMC) $(TIGHTBEAMC_INCFLAGS) --pass c --output-base $(patsubst %.tightbeam.h,%.tightbeam.c,$@) $<
 
 $(GENERATED_IMPL) : $(GENERATED_HEADERS)
 

@@ -18,7 +18,7 @@ from builtins import range
 import numbers
 
 # Override int with valueint so we get the desired behavior.
-from .compat import valueint as int
+from compat import valueint as int
 
 from past.utils import old_div
 import lldb

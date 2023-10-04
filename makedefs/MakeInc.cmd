@@ -67,7 +67,6 @@ LOG_SYMBOLSET = $(call _LOG_COMP,SYMSET)
 LOG_SYMBOLSETPLIST = $(call _LOG_COMP,SYMSETPLIST)
 
 # Host-side operations.
-LOG_TIGHTBEAMC = $(call _LOG_HOST,TIGHTBEAMC)
 LOG_IIG = $(call _LOG_HOST,IIG)
 LOG_HOST_CC = $(call _LOG_HOST,CC)
 LOG_HOST_LD = $(call _LOG_HOST,LD)
@@ -230,9 +229,6 @@ ifeq ($(origin MIGCC),undefined)
 endif
 ifeq ($(origin IIG),undefined)
 	export IIG := $(shell $(XCRUN) -sdk $(SDKROOT) -find iig)
-endif
-ifeq ($(origin TIGHTBEAMC),undefined)
-	export TIGHTBEAMC := $(shell $(XCRUN) -sdk $(SDKROOT) -find tightbeamc)
 endif
 ifeq ($(origin STRIP),undefined)
 	export STRIP := $(shell $(XCRUN) -sdk $(SDKROOT) -find strip)

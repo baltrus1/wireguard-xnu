@@ -713,11 +713,6 @@ _lockd_shutdown
 _lockd_request
 _log
 _logwakeup
-_check_trust_cache_runtime_for_uuid
-_load_trust_cache
-_load_trust_cache_with_type
-_load_legacy_trust_cache
-_query_trust_cache
 _m_cat
 _m_free:_mbuf_free
 _m_freem:_mbuf_freem
@@ -947,7 +942,6 @@ _soreceive
 _soreserve
 _sorwakeup
 _sosend
-_static_trust_cache_capabilities
 _strnstr
 _sysdiagnose_notify_user
 _task_get_suspend_stats

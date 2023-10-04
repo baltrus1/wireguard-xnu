@@ -741,10 +741,10 @@ kernel_bootstrap_thread(void)
 	kernel_bootstrap_log("trust_cache_init");
 
 	/* Initialize the runtime for the trust cache interface */
-	trust_cache_runtime_init();
+	// trust_cache_runtime_init();
 
 	/* Load the static and engineering trust caches */
-	load_static_trust_cache();
+	// load_static_trust_cache();
 #endif
 
 	kernel_startup_initialize_upto(STARTUP_SUB_LOCKDOWN);

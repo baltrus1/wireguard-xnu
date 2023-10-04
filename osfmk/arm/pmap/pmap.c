@@ -1161,32 +1161,9 @@ PMAP_SUPPORT_PROTOTYPES(
 #endif /* HAS_APPLE_PAC */
 
 
-
-
-PMAP_SUPPORT_PROTOTYPES(
-	kern_return_t,
-	pmap_check_trust_cache_runtime_for_uuid, (const uint8_t check_uuid[kUUIDSize]),
-	PMAP_CHECK_TRUST_CACHE_RUNTIME_FOR_UUID_INDEX);
-
-PMAP_SUPPORT_PROTOTYPES(
-	kern_return_t,
-	pmap_load_trust_cache_with_type, (TCType_t type,
-	const vm_address_t pmap_img4_payload,
-	const vm_size_t pmap_img4_payload_len,
-	const vm_address_t img4_manifest,
-	const vm_size_t img4_manifest_len,
-	const vm_address_t img4_aux_manifest,
-	const vm_size_t img4_aux_manifest_len), PMAP_LOAD_TRUST_CACHE_WITH_TYPE_INDEX);
-
 PMAP_SUPPORT_PROTOTYPES(
 	void,
 	pmap_toggle_developer_mode, (bool state), PMAP_TOGGLE_DEVELOPER_MODE_INDEX);
-
-PMAP_SUPPORT_PROTOTYPES(
-	kern_return_t,
-	pmap_query_trust_cache, (TCQueryType_t query_type,
-	const uint8_t cdhash[kTCEntryHashSize],
-	TrustCacheQueryToken_t * query_token), PMAP_QUERY_TRUST_CACHE_INDEX);
 
 #if PMAP_CS_INCLUDE_CODE_SIGNING
 
@@ -12850,116 +12827,6 @@ pmap_load_trust_cache_with_type_internal(
 
 	/* Return the CoreCrypto reserved page back to the free list */
 	pmap_release_reserved_ppl_page();
-
-	return ret;
-}
-
-kern_return_t
-pmap_load_trust_cache_with_type(
-	TCType_t type,
-	const vm_address_t pmap_img4_payload, const vm_size_t pmap_img4_payload_len,
-	const vm_address_t img4_manifest, const vm_size_t img4_manifest_len,
-	const vm_address_t img4_aux_manifest, const vm_size_t img4_aux_manifest_len)
-{
-	kern_return_t ret = KERN_DENIED;
-
-	ret = pmap_load_trust_cache_with_type_ppl(
-		type,
-		pmap_img4_payload, pmap_img4_payload_len,
-		img4_manifest, img4_manifest_len,
-		img4_aux_manifest, img4_aux_manifest_len);
-
-	while (ret == KERN_RESOURCE_SHORTAGE) {
-		/* Allocate a page from the free list */
-		pmap_alloc_page_for_ppl(0);
-
-		/* Attempt the call again */
-		ret = pmap_load_trust_cache_with_type_ppl(
-			type,
-			pmap_img4_payload, pmap_img4_payload_len,
-			img4_manifest, img4_manifest_len,
-			img4_aux_manifest, img4_aux_manifest_len);
-	}
-
-	return ret;
-}
-
-MARK_AS_PMAP_TEXT kern_return_t
-pmap_query_trust_cache_safe(
-	TCQueryType_t query_type,
-	const uint8_t cdhash[kTCEntryHashSize],
-	TrustCacheQueryToken_t *query_token)
-{
-	kern_return_t ret = KERN_NOT_FOUND;
-
-	/* Validate the query type preemptively */
-	if (query_type >= kTCQueryTypeTotal) {
-		pmap_cs_log_error("unable to query trust cache: invalid query type: %u", query_type);
-		return KERN_INVALID_ARGUMENT;
-	}
-
-	/* Lock the runtime as shared */
-	lck_rw_lock_shared(&ppl_trust_cache_rt_lock);
-
-	TCReturn_t tc_ret = amfi->TrustCache.query(
-		&ppl_trust_cache_rt,
-		query_type,
-		cdhash,
-		query_token);
-
-	/* Unlock the runtime */
-	lck_rw_unlock_shared(&ppl_trust_cache_rt_lock);
-
-	if (tc_ret.error == kTCReturnSuccess) {
-		ret = KERN_SUCCESS;
-	} else if (tc_ret.error == kTCReturnNotFound) {
-		ret = KERN_NOT_FOUND;
-	} else {
-		ret = KERN_FAILURE;
-		pmap_cs_log_error("trust cache query failed (TCReturn: 0x%02X | 0x%02X | %u)",
-		    tc_ret.component, tc_ret.error, tc_ret.uniqueError);
-	}
-
-	return ret;
-}
-
-MARK_AS_PMAP_TEXT kern_return_t
-pmap_query_trust_cache_internal(
-	TCQueryType_t query_type,
-	const uint8_t cdhash[kTCEntryHashSize],
-	TrustCacheQueryToken_t *query_token)
-{
-	kern_return_t ret = KERN_NOT_FOUND;
-	TrustCacheQueryToken_t query_token_safe = {0};
-	uint8_t cdhash_safe[kTCEntryHashSize] = {0};
-
-	/* Copy in the CDHash into PPL storage */
-	memcpy(cdhash_safe, cdhash, kTCEntryHashSize);
-
-	/* Query through the safe API since we're in the PPL now */
-	ret = pmap_query_trust_cache_safe(query_type, cdhash_safe, &query_token_safe);
-
-	if (query_token != NULL) {
-		pmap_pin_kernel_pages((vm_offset_t)query_token, sizeof(*query_token));
-		memcpy((void*)query_token, (void*)&query_token_safe, sizeof(*query_token));
-		pmap_unpin_kernel_pages((vm_offset_t)query_token, sizeof(*query_token));
-	}
-
-	return ret;
-}
-
-kern_return_t
-pmap_query_trust_cache(
-	TCQueryType_t query_type,
-	const uint8_t cdhash[kTCEntryHashSize],
-	TrustCacheQueryToken_t *query_token)
-{
-	kern_return_t ret = KERN_NOT_FOUND;
-
-	ret = pmap_query_trust_cache_ppl(
-		query_type,
-		cdhash,
-		query_token);
 
 	return ret;
 }
